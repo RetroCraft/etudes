@@ -1,0 +1,142 @@
+\RequirePackage{chngcntr}
+\newcommand{\setsectiontitle}[1]{
+  \titleformat{\section}{\normalfont\large\bfseries}{#1~\thesection}{1em}{}
+  \settowidth{\cftsecnumwidth}{#1~0000~}
+  \renewcommand\cftsecpresnum{#1~}
+  \addtocontents{toc}{\protect\renewcommand*{\protect\cftsecpresnum}{#1~}}
+}
+\bookmarksetup{numbered}
+
+\setlength\topsep{6pt}
+
+% Theorem boxes (taken from vEnhance/napkin)
+\mdfdefinestyle{mdround}{
+	roundcorner=10pt,
+	linewidth=1pt,
+	skipabove=12pt,
+  innertopmargin=12pt,
+	innerbottommargin=9pt,
+	skipbelow=2pt,
+	nobreak=true,
+}
+\mdfdefinestyle{mdsquare}{
+	linewidth=0.5pt,
+	skipabove=12pt,
+  innertopmargin=12pt,
+	innerbottommargin=9pt,
+	skipbelow=2pt,
+	nobreak=true,
+}
+\mdfdefinestyle{mdquote}{
+	skipabove=8pt,
+  innertopmargin=12pt,
+	innerbottommargin=9pt,
+	linewidth=2pt,
+	rightline=false,
+	leftline=true,
+	topline=false,
+	bottomline=false,
+}
+
+% Results (purple)
+\declaretheoremstyle[
+	headfont=\bfseries\color{Purple},
+	mdframed={style=mdround,linecolor=Mulberry,backgroundcolor=Orchid!5},
+	headpunct={\\[3pt]},
+	postheadspace={0pt}
+]{thmroundresult}
+\declaretheoremstyle[
+	headfont=\bfseries\color{Violet},
+	mdframed={style=mdsquare,linecolor=Violet,backgroundcolor=Periwinkle!5},
+	headpunct={\\[3pt]},
+	postheadspace={0pt}
+]{thmsquareresult}
+\declaretheoremstyle[
+	headfont=\bfseries\color{MidnightBlue},
+	mdframed={style=mdsquare,linecolor=RoyalBlue,backgroundcolor=CornflowerBlue!5},
+	headpunct={\\[3pt]},
+	postheadspace={0pt}
+]{thmprop}
+\declaretheoremstyle[
+	headfont=\bfseries\color{MidnightBlue},
+  notefont=\mdseries,
+	bodyfont=\normalfont,
+	mdframed={style=mdquote,linecolor=RoyalBlue,backgroundcolor=CornflowerBlue!5},
+]{thmquoteresult}
+\declaretheorem[refname={Theorem,Theorems},style=thmroundresult,numberwithin=section]{theorem}
+\declaretheorem[refname={Lemma,Lemmas},style=thmsquareresult,sibling=theorem]{lemma}
+\declaretheorem[name=Proposition,refname={Proposition,Propositions},style=thmprop,sibling=theorem]{prop}
+\declaretheorem[refname={Corollary,Corollaries},style=thmquoteresult,sibling=theorem]{corollary}
+
+% Problems (red)
+\declaretheoremstyle[
+	headfont=\bfseries\color{RawSienna},
+	mdframed={style=mdround,linecolor=Red,backgroundcolor=CarnationPink!5},
+	headpunct={\\[3pt]},
+	postheadspace={0pt}
+]{thmroundred}
+\declaretheoremstyle[
+	headfont=\bfseries\color{RedViolet},
+	mdframed={style=mdround,linecolor=Magenta,backgroundcolor=CarnationPink!5},
+	headpunct={\\[3pt]},
+	postheadspace={0pt}
+]{thmroundpink}
+\declaretheoremstyle[
+	headfont=\bfseries\color{RawSienna},
+  notefont=\mdseries,
+	bodyfont=\normalfont,
+	mdframed={style=mdquote,linecolor=Red,backgroundcolor=CarnationPink!5},
+]{thmquotered}
+\declaretheorem[refname={Conjecture,Conjectures},style=thmroundpink,sibling=theorem]{conjecture}
+\declaretheorem[refname={Problem,Problems},style=thmroundred,sibling=theorem]{problem}
+\declaretheorem[name=Exercise,refname={Exercise,Exercises},style=thmquotered,sibling=theorem]{xca}
+
+% Definitions (green)
+\declaretheoremstyle[
+	headfont=\bfseries\color{OliveGreen},
+	bodyfont=\normalfont,
+	headpunct={\\[3pt]},
+	postheadspace={0pt},
+	mdframed={style=mdsquare,linecolor=ForestGreen,backgroundcolor=ForestGreen!5},
+]{thmsquaregreen}
+\declaretheorem[refname={definition,definitions},style=thmsquaregreen,sibling=theorem]{definition}
+\NewDocumentEnvironment{defn}{oO{#1}}{\IfNoValueTF{#1}{\definition}{\definition[#1]\index{#2}}}{\enddefinition}
+\NewDocumentEnvironment{defn*}{o}{\IfNoValueTF{#1}{\definition}{\definition[#1]}}{\enddefinition}
+
+% Misc (black)
+\declaretheoremstyle[
+	headfont=\bfseries,
+  notefont=\mdseries,
+	bodyfont=\normalfont,
+	mdframed={style=mdquote,linecolor=black,backgroundcolor=RedViolet!5!gray!5}
+]{thmquoteblack}
+\declaretheoremstyle[
+	headfont=\bfseries\color{Brown},
+  notefont=\mdseries,
+	bodyfont=\normalfont,
+	mdframed={style=mdquote,linecolor=Goldenrod,backgroundcolor=Goldenrod!5}
+]{thmquoteyellow}
+\declaretheorem[refname={Remark,Remarks},style=thmquoteyellow,sibling=theorem]{remark}
+\declaretheorem[refname={Claim,Claims},style=thmquoteblack,sibling=theorem]{claim}
+\declaretheorem[refname={Example,Examples},style=thmquoteblack,sibling=theorem]{example}
+
+% \RequirePackage[hybrid,underscores=false]{markdown}
+
+% Use inside of definitions: "a \term{thing} is a whatever"
+\makeindex[columns=3, title=Index of Defined Terms, intoc]
+\indexsetup{level=\chapter*,toclevel=section}
+
+% For thmbox (see tex.se/41100)
+\RequirePackage{tablefootnote}
+\newcommand{\spewnotes}{\tfn@tablefootnoteprintout\global\let\tfn@tablefootnoteprintout\relax\gdef\tfn@fnt{0}}
+
+% List of lectures (marked in margin)
+\RequirePackage{multicol,xpatch}
+\RequirePackage{marginnote}
+\newlistof{lecture}{lec.toc}{Lectures}
+\xpatchcmd{\listoflecture}{\chapter*}{\section*}{}{}
+\settowidth{\cftlecturenumwidth}{Lecture~0000~}
+\newcommand{\lecture}[1]{%
+  \refstepcounter{lecture}%
+  \addcontentsline{lec.toc}{lecture}{\protect\numberline{Lecture~\thelecture}#1}%
+  \marginnote{\normalsize{\textit{Lecture \thelecture\\#1}}}}

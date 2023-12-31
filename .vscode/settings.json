@@ -1,0 +1,107 @@
+{
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "**/*.crswap": true,
+        "**/*.aux": true,
+        "**/*.fls": true,
+        "**/*.synctex.gz": true,
+        "**/*.fdb_latexmk": true,
+        "**/_minted*": true,
+        "**/pythontex-files-ref": true,
+        "**/*.out": {
+            "when": "$(basename).pdf"
+        },
+        "**/*.log": {
+            "when": "$(basename).pdf"
+        },
+        "**/*.pytxcode": {
+            "when": "$(basename).pdf"
+        },
+    },
+    "workbench.editor.pinnedTabSizing": "compact",
+    "editor.wordWrap": "off",
+    "editor.fontSize": 14,
+    "editor.rulers": [
+        100
+    ],
+    "explorer.fileNesting.enabled": true,
+    "explorer.fileNesting.expand": false,
+    "explorer.fileNesting.patterns": {
+        "*.pdf": "${capture}.log, ${capture}.out, ${capture}.log, ${capture}.aux, ${capture}.fls, ${capture}.fdb_latexmk, ${capture}.synctex.gz, ${capture}.synctex(busy), ${capture}.xdv, _minted-${capture}, ${capture}.toc, _markdown_${capture}, ${capture}.markdown.in, ${capture}.idx, ${capture}.ilg, ${capture}.ind, ${capture}.loe",
+        "*.cpp": "${capture}.o"
+    },
+    "latex-workshop.view.pdf.trim": 2,
+    "latex-workshop.latex.tools": [
+        {
+            "name": "latexmk",
+            "command": "latexmk",
+            "args": [
+                "-shell-escape",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "-pdf",
+                "-lualatex",
+                "-outdir=%OUTDIR%",
+                "-synctex=1",
+                "%DOC%"
+            ],
+            "env": {
+                "TEXINPUTS": ".;%WORKSPACE_FOLDER%/latex;"
+            }
+        },
+        {
+            "name": "latexmk_pythontex",
+            "command": "latexmk",
+            "args": [
+                "-shell-escape",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "-pdf",
+                "-outdir=%OUTDIR%",
+                "-synctex=1",
+                "-r",
+                "%WORKSPACE_FOLDER%/latex/pythontex.latexmkrc",
+                "%DOC%"
+            ],
+            "env": {
+                "TEXINPUTS": ".;%WORKSPACE_FOLDER%/latex;"
+            }
+        }
+    ],
+    "latex-workshop.latex.recipes": [
+        {
+            "name": "latexmk 🔃",
+            "tools": [
+                "latexmk"
+            ]
+        },
+        {
+            "name": "latexmk (pythontex)",
+            "tools": [
+                "latexmk_pythontex"
+            ]
+        }
+    ],
+    "latex-workshop.latexindent.args": [
+        "-l=%WORKSPACE_FOLDER%/latex/latexindent.yaml",
+        "-c",
+        "%DIR%/",
+        "%TMPFILE%",
+        "-y=defaultIndent: '%INDENT%'"
+    ],
+    "latex-workshop.linting.chktex.exec.args": [
+        "--localrc %WORKSPACE_FOLDER%/latex/.chktexrc",
+        "-wall",
+        "-n22",
+        "-n30",
+        "-e16",
+        "-q"
+    ],
+    "latex-workshop.latex.autoBuild.run": "onSave",
+    "files.autoSave": "off"
+}
