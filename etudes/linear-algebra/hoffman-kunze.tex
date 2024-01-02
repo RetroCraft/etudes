@@ -941,7 +941,24 @@ These are shown to be equivalent in \Cref{xca:vecmult} anyways.
   Give an example of a function in $V$ which is not real-valued.
 \end{xca}
 \begin{prf}
-  
+  Let $O(t) = 0$.
+  We can satisfy the vector addition axioms:
+  \begin{gather*}
+    (f+g)(t) = f(t) + g(t) = g(t) + f(t) = (g+f)(t) \\
+    ((f+g)+h)(t) = (f+g)(t) + h(t) = f(t) + g(t) + h(t) = f(t) + (g+h)(t) = (f+(g+h))(t) \\
+    (f+O)(t) = f(t) + O(t) = f(t) + 0 = f(t) \\
+    (f + (-f))(t) = f(t) + (-f(t)) = 0 = O(t)
+  \end{gather*}
+  and the scalar multiplication axioms:
+  \begin{gather*}
+    (1f)(t) = 1f(t) = f(t) \\
+    (c_1c_2f)(t) = c_1c_2f(t) = c_1(c_2f)(t) = (c_1(c_2f))(t) \\\
+    (c(f+g))(t) = c(f+g)(t) = c(f(t)+g(t)) = cf(t) + cg(t) = (cf)(t) + (cg)(t) = (cf+cg)(t) \\
+    ((c_1+c_2)f)(t) = (c_1+c_2)f(t) = c_1f(t) + c_2f(t) = (c_1f)(t) + (c_2f)(t) = (c_1f+c_2f)(t)
+  \end{gather*}
+  which verifies that $V$ is a vector space.
+
+  As an example, $f(t) = it$ is in $V$, since $f(-t) = -it = \overline{it} = \overline{f(t)}$.
 \end{prf}
 
 \begin{xca}
