@@ -1,0 +1,235 @@
+\documentclass[notes,tikz]{agony}
+\usetikzlibrary{cd}
+\title{\emph{Category Theory in Context} Exercises}
+\renewcommand{\thexca}{\thesection.\roman{theorem}}
+\newcommand{\inenum}{\vspace{-1.8em}}
+\setlist[enumerate,1]{(i)}
+
+\begin{document}
+\thispagestyle{firstpage}
+\renewcommand{\contentsname}{Exercises\\{\Large from Riehl, \emph{Category Theory in Context}}}
+\tableofcontents
+
+I am self-studying this alongside Aluffi, \emph{Algebra:\ Chapter 0},
+so there is a bit of mixed notation.
+
+\chapter{Categories, Functors, Natural Transformations}
+
+\section{Abstract and concrete categories}
+
+\begin{xca}
+  \leavevmode
+  \begin{enumerate}
+    \item Consider a morphism $f : x \to y$.
+          Show that if there exists a pair of morphisms $g, h : y \toto x$
+          so that $g f = 1_x$ and $f h = 1_y$, then $g = h$ and $f$ is an isomorphism.
+    \item Show that a morphism can have at most one inverse isomorphism.
+  \end{enumerate}
+\end{xca}
+\begin{enumerate}
+  \item \begin{prf}\inenum
+          We can compose together $gfh = (gf)h = 1_Xh = h$.
+          But $gfh = g(fh) = g1_y = g$ by associativity.
+          Therefore, $g = h$.
+          Since $gf = 1_x$ and $fh = fg = 1_y$, $f$ is an isomorphism.
+        \end{prf}
+  \item \begin{prf}\inenum
+          Suppose $f : x \to y$ has two inverses $g$ and $h$.
+          Then, as above, $g = g1_y = g(fh) = (gf)h = 1_xf = h$ by associativity.
+        \end{prf}
+\end{enumerate}
+
+\begin{xca}
+  Let $\cat C$ be a category.
+  Show that the collection of isomorphisms in $\cat C$ defines a subcategory,
+  the maximal groupoid inside $\cat C$.
+\end{xca}
+\begin{prf}
+  Let $X$, $Y$, and $Z$ be objects in $\cat C$.
+  We must show identity and composition, since we get associativity for free from $\cat C$.
+
+  The identity morphisms $1_X$ are isomorphisms, since they are their own inverses.
+  Therefore, they are present in the maximal groupoid.
+
+  Now, if $f : X \to Y$ and $g : Y \to Z$ are isomorphisms,
+  then the composition $gf : X \to Z$ is an isomorphism with inverse $f^{-1}g^{-1}$
+  since $gff^{-1}g^{-1} = gg^{-1} = 1_Z$ and $f^{-1}g^{-1}gf = f^{-1}f = 1_X$.
+
+  Therefore, the maximal groupoid is in fact a category.
+\end{prf}
+
+\begin{xca}
+  For any category $\cat C$ and any object $c \in \cat C$, show that:
+  \begin{enumerate}
+    \item There is a category $c/\cat C$ whose objects are morphisms
+          $f : c \to x$ with domain $c$ and
+          in which a morphism from $f : c \to x$ to $g : c \to y$
+          is a map $h : x \to y$ between the codomains so that the triangle
+          \begin{center}
+            \begin{tikzcd}[column sep=small]
+                            & c \dlar["f"] \drar["g"] &   \\
+              x \ar[rr,"h"] &                         & y
+            \end{tikzcd}
+          \end{center}
+          commutes, i.e., so that $g = hf$.
+    \item There is a category $\cat C/c$ whose objects are morphisms
+          $f : x \to c$ with codomain $c$ and
+          in which a morphism from $f : x \to c$ to $g : y \to c$
+          is a map $h : x \to y$ between the codomains so that the triangle
+          \begin{center}
+            \begin{tikzcd}[column sep=small]
+              x \ar[rr,"h"]\drar["f"] &   & y \dlar["g"] \\
+                                      & c &
+            \end{tikzcd}
+          \end{center}
+          commutes, i.e., so that $f = gh$.
+  \end{enumerate}
+  The categories $c/\cat C$ and $\cat C/c$ are called slice categories of $\cat C$ under and over $c$, respectively.
+\end{xca}
+\begin{enumerate}
+  \item See Exercise I.3.7, Aluffi.
+  \item See Example I.3.5, Aluffi.
+\end{enumerate}
+
+\section{Duality}
+
+\begin{xca}
+  Defining $\cat C/c$ to be $(c/(\cat C\op))\op$,
+  deduce Exercise 1.1.iii(ii) from Exercise 1.1.iii(i).
+\end{xca}
+\begin{prf}
+  We must establish that $\cat C/c$ is in fact $(c/(\cat C\op))\op$.
+  Then, everything (inverses, composition, associativity) follows immediately from duality.
+
+  First, notice that in $c/(\cat C\op)$,
+  we have objects that are morphisms in $\cat C\op$, i.e.,
+  the same that are in $\cat C$ but backwards:
+  \begin{center}
+    \begin{tikzcd}[column sep=small]
+                       & c \dlar["f\op" above] \drar["g\op"] &   \\
+      x \ar[rr,"h\op"] &                                     & y
+    \end{tikzcd}
+  \end{center}
+  To get to the desired commutative diagram, we have to apply the opposite operation once more.
+\end{prf}
+
+\begin{xca}
+  \leavevmode
+  \begin{enumerate}
+    \item Show that a morphism $f : x \to y$ is a split epimorphism
+          in a category $\cat C$ if and only if for all $c \in \cat C$,
+          the post-composition function $f_* : \cat C(c,x) \to \cat C(c,y)$ is surjective.
+    \item Argue by duality that $f$ is a split monomorphism if and only if
+          for all $c \in \cat C$, the pre-composition function
+          $f^* : \cat C(y,c) \to \cat C(x,c)$ is surjective.
+  \end{enumerate}
+\end{xca}
+\begin{enumerate}
+  \item \begin{prf}\inenum
+          ($\Rarr$) Suppose $f$ is a split epimorphism, i.e.,
+          it is a left inverse of some morphism $g : y \to x$.
+          That is, $fg = 1_y$.
+
+          Let $h : c \to y$.
+          We must show $f_*(j) = fj = h$ for some $j : c \to x$.
+          Notice that $f(gh) = (fg)h = 1_y h = h$.
+          Therefore, if we let $j := gh$, we are done.
+
+          ($\Larr$) Suppose $f_*$ is surjective, i.e.,
+          for all $g : c \to y$ there exists an $h : c \to x$
+          such that $f_*(h) = fh = g$.
+          In particular, for $g' = 1_y$, there exists $h' : y \to x$
+          such that $fh' = 1_y$.
+          That is, $f$ is a split epimorphism, the retraction of $h'$.
+        \end{prf}
+  \item \begin{prf}\inenum
+          Apply part (i) to the category $\cat C\op$:
+          \begin{quote}
+            $f\op \in \cat C\op(x,y)$ is a split epimorphism
+            if and only if for all $c \in \cat C\op$,
+            the post-composition function $f_*\op : \cat C\op(c,x) \to \cat C\op(c,y)$ is surjective.
+          \end{quote}
+          But this is exactly the same as saying
+          \begin{quote}
+            $f \in \cat C(y,x)$ is a split monomorphism
+            if and only if for all $c \in \cat C$,
+            the pre-composition function $f^* : \cat C\op(x,c) \to \cat C\op(y,c)$ is surjective.
+          \end{quote}
+          because $\cat C\op(x,y) = \cat C(y,x)$
+          and a split epimorphism $f\op g\op = 1_y$
+          becomes a split monomorphism $gf = 1_y$.
+        \end{prf}
+\end{enumerate}
+
+\begin{xca}
+  Prove Lemma 1.2.11 by proving either (i) and (ii), then arguing by duality.
+  Conclude that the monomorphisms in any category define a subcategory of that category
+  and dually that the epimorphisms also define a subcategory.
+\end{xca}
+\begin{prf}
+  (i) Let $f : x \mono y$ and $g : y \mono z$.
+  We must show that $gf$ is monic, i.e.,
+  $gfh = gfk \implies h = k$ for all $h,k : c \toto x$.
+  Suppose $gfh = gfk$.
+  Since $g$ is monic, we know that $g(fh) = g(fk) \implies fh = fk$.
+  But then, since $f$ is monic, $fh = fk \implies h = k$.
+
+  (ii) Let $f : x \to y$ and $g : y \to z$ such that $gf : x \mono z$.
+  We must show $f$ is monic, i.e., $fh = fk \implies h = k$ for all $h,k : c \toto x$.
+  Suppose $fh = fk$.
+  Then, by pre-composing $g$, $(gf)h = (gf)k$.
+  Since $gf$ is monic, $h = k$.
+
+  Now, we can show that the subcategory $\cat{C_{Monic}}$ of the same objects
+  as $\cat C$ and with only its monomorphisms is a category.
+  First, since for all $h,k \in \cat C(c,x)$,
+  $1_xh = 1_xk \implies h = k$, we have the identities in $\cat{C_{Monic}}$.
+  Then, due to (i), the compositions of all morphisms are in the subcategory.
+  Since the objects are unchanged, we can conclude $\cat{C_{Monic}}$ is a subcategory.
+
+  Dually, the opposite monomorphism $f\op$ in $\cat C\op$ such that
+  $f\op h\op = f\op k\op \implies h\op = k\op$ is the epimorphism
+  $f$ in $\cat C$ such that $hf = kf \implies h = k$.
+  Therefore, the dual of (i) is (i') and the dual of (ii) is (ii').
+  Finally, the dual of the existence of the subcategory $\cat{C_{Monic}}$
+  is a subcategory $\cat{C_{Epic}}$ of epimorphisms.
+\end{prf}
+
+\skipto{6} % TODO: requires ring theory
+\begin{xca}
+  Prove that a morphism that is both a monomorphism
+  and a split epimorphism is necessarily an isomorphism.
+  Argue by duality that a split monomorphism that is
+  an epimorphism is also an isomorphism.
+\end{xca}
+\begin{prf}
+  Suppose $f : x \mono y$ is also a split epimorphism such that $fg = 1_y$ for some $g : y \to x$.
+  Then, since $f$ is monic, $f(gf) = (fg)f = (1_y)f = f = f(1_x) \implies gf = 1_x$.
+  That is, $f$ is an isomorphism.
+
+  By duality, a split epimorphism $f\op g\op = 1_y$ is a split homomorphism $gf = 1_y$.
+  Therefore, a split homomorphism that is an epimorphism is an isomorphism too.
+\end{prf}
+
+\begin{xca}
+  Regarding a poset $(\cat P, \leq)$ as a category,
+  define the supremum of a subcollection of objects $a \in \cat P$
+  in such a way that the dual statement defines the infimum.
+  Prove that the supremum of a subset of objects is unique, whenever it exists,
+  in such a way that the dual proof demonstrates the uniqueness of the infimum.
+\end{xca}
+\begin{prf}
+  Let $a$ be the object such that $f_x : x \to a$ exists for all other $x$ in the subcollection.
+  That is, for every object $x$, $y \leq a$.
+  Then, the dual definition is the object $a\op$ in $\cat P\op$
+  such that $f\op_X : x \to a$ always exists, i.e.,
+  the object $a'$ in $\cat P$ such that $f_x : a \to x$ always exists.
+
+  Suppose there are two suprema $a$ and $a'$.
+  Then, by the definition for $a$, we just have a morphism $a \to a'$.
+  But if $a'$ is a supremum, there must also be a morphism $a' \to a$.
+  Therefore, $a \leq a' \leq a$, which means $a = a'$ since $\cat P$ is a poset
+  (and not a pre-ordered set).
+\end{prf}
+
+\end{document}

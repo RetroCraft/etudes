@@ -9,7 +9,19 @@
 
 \setlength\topsep{6pt}
 
+%
 % Theorem boxes (taken from vEnhance/napkin)
+%
+
+\usepackage{mdframed}
+\usepackage{amsthm,thmtools}
+\declaretheoremstyle[
+  spaceabove=6pt,spacebelow=6pt,
+  headfont=\normalfont\itshape,bodyfont=\normalfont,
+  qed=\qedsymbol]{proof}
+\declaretheorem[name=Proof,style=proof,unnumbered]{prf}
+\declaretheorem[name=Solution,style=proof,unnumbered]{sol}
+
 \mdfdefinestyle{mdround}{
 	roundcorner=10pt,
 	linewidth=1pt,
@@ -71,13 +83,13 @@
 % Problems (red)
 \declaretheoremstyle[
 	headfont=\bfseries\color{RawSienna},
-	mdframed={style=mdround,linecolor=Red,backgroundcolor=CarnationPink!5},
+	mdframed={style=mdround,linecolor=Red,backgroundcolor=CarnationPink!2},
 	headpunct={\\[3pt]},
 	postheadspace={0pt}
 ]{thmroundred}
 \declaretheoremstyle[
 	headfont=\bfseries\color{RedViolet},
-	mdframed={style=mdround,linecolor=Magenta,backgroundcolor=CarnationPink!5},
+	mdframed={style=mdround,linecolor=Magenta,backgroundcolor=CarnationPink!2},
 	headpunct={\\[3pt]},
 	postheadspace={0pt}
 ]{thmroundpink}
@@ -85,7 +97,7 @@
 	headfont=\bfseries\color{RawSienna},
   notefont=\mdseries,
 	bodyfont=\normalfont,
-	mdframed={style=mdquote,linecolor=Red,backgroundcolor=CarnationPink!5},
+	mdframed={style=mdquote,linecolor=RawSienna,backgroundcolor=CarnationPink!2},
 ]{thmquotered}
 \declaretheorem[refname={Conjecture,Conjectures},style=thmroundpink,sibling=theorem]{conjecture}
 \declaretheorem[refname={Problem,Problems},style=thmroundred,sibling=theorem]{problem}
@@ -119,6 +131,9 @@
 \declaretheorem[refname={Remark,Remarks},style=thmquoteyellow,sibling=theorem]{remark}
 \declaretheorem[refname={Claim,Claims},style=thmquoteblack,sibling=theorem]{claim}
 \declaretheorem[refname={Example,Examples},style=thmquoteblack,sibling=theorem]{example}
+
+% \skipto{5} immediately before environment #5
+\newcommand{\skipto}[2][theorem]{\setcounter{#1}{#2}\addtocounter{#1}{-1}}
 
 % \RequirePackage[hybrid,underscores=false]{markdown}
 

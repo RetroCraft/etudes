@@ -1,0 +1,17 @@
+isomorphisms
+groupoid
+suprema
+supremum
+poset
+infimum
+epimorphism
+monic
+monomorphism
+epimorphisms
+monomorphisms
+surjective
+codomain
+codomains
+Functoriality
+subobject
+subobjects

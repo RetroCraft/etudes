@@ -26,19 +26,17 @@
 \usepackage[english]{babel}
 \usepackage{iftex}
 \usepackage{amsfonts,amssymb}
-\ifluatex
-  \usepackage{unicode-math}
-  \setmathfont{latinmodern-math.otf}
-  % fixes because latinmodern-math is dumb
-  \setmathfont[range=\mathbb]{texgyrepagella-math.otf}[AutoFakeBold=3] % restore nice-looking ℝ 
-  \AtBeginDocument{
-    \renewcommand\setminus{\smallsetminus} % ∖ should be small to look like an operator
-    \renewcommand\varnothing{\diameter} % ∅ should obviously be
-  }
-\else
-  \usepackage[T1]{fontenc}
-  \usepackage{lmodern}
-\fi
+\usepackage{unicode-math}
+\setmathfont{latinmodern-math.otf}
+% fixes because latinmodern-math is dumb
+\setmathfont[range=bb]{texgyrepagella-math.otf}[AutoFakeBold=3] % restore nice-looking ℝ 
+\setmathfont[range={scr,bfscr},StylisticSet=01]{STIX Two Math} % restore distinct mathcal/mathscr
+\AtBeginDocument{
+  \renewcommand\setminus{\smallsetminus} % ∖ should be small to look like an operator
+  \renewcommand\varnothing{\diameter} % ∅ should obviously be
+}
+
+% Fancy underline for iondexed terms
 \usepackage{contour}
 \usepackage[normalem]{ulem}
 \renewcommand{\ULdepth}{1.8pt}
@@ -147,23 +145,6 @@
   linktoc=all
 }
 
-% Question/Problem theorem styles
-\usepackage{mdframed}
-\usepackage{amsthm,thmtools}
-
-\newcounter{question}[subsection]
-\renewcommand{\thequestion}{Q\ifnum\value{question}<10 0\fi\arabic{question}}
-\newcommand{\question}{\par\refstepcounter{question}\textbf{\thequestion}.\space}
-\declaretheorem[sibling=question,style=definition,name=,
-  refname={problem,problems},Refname={Problem,Problems}]{prob}
-
-\declaretheoremstyle[
-  spaceabove=6pt,spacebelow=6pt,
-  headfont=\normalfont\itshape,bodyfont=\normalfont,
-  qed=\qedsymbol]{proof}
-\declaretheorem[name=Proof,style=proof,unnumbered]{prf}
-\declaretheorem[name=Solution,style=proof,unnumbered]{sol}
-
 %
 % Macros
 %
@@ -195,12 +176,16 @@
 \newcommand{\sym}{\mathbin{\triangle}}
 
 % Functions
+\DeclareMathOperator{\id}{id}
 \DeclareMathOperator{\sgn}{sgn}
 \DeclareMathOperator{\im}{im}
 \DeclareMathOperator{\lcm}{lcm}
 \DeclareMathOperator{\cis}{cis}
 
 % Operators
+\newcommand{\from}{\leftarrow}
+\newcommand{\toto}{\rightrightarrows}
+\newcommand{\tofrom}{\rightleftarrows}
 \newcommand{\Rarr}{\Rightarrow}
 \newcommand{\Larr}{\Leftarrow}
 \newcommand{\Harr}{\Leftrightarrow}
@@ -209,10 +194,19 @@
 \DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
 \newcommand{\dyx}{\dv{y}{x}}
 
+% Category Theory
+\newcommand{\cat}[1]{\mathsf{#1}}
+\renewcommand{\op}{^{\cat{op}}} % overrides physics.sty \op for \outerproduct
+\DeclareMathOperator{\Obj}{Obj}
+\newcommand{\Hom}[1][]{\ifthenelse{\isempty{#1}}{\operatorname{Hom}}{\operatorname{Hom}_{\cat{#1}}}}
+\newcommand{\End}[1][]{\ifthenelse{\isempty{#1}}{\operatorname{End}}{\operatorname{End}_{\cat{#1}}}}
+\newcommand{\mono}{\rightarrowtail}
+\newcommand{\epic}{\twoheadrightarrow}
+\newcommand{\into}{\hookrightarrow}
+
 % Linear Algebra
 \newcommand{\trans}{^{\intercal}} % Transpose
 \newcommand{\xto}{\xrightarrow} % \xto{R_1 \harr R_2}
-\newcommand{\cbm}[2]{\ensuremath{{}_{#1}[I]{}_{#2}}} % change of basis matrix
 \DeclareMathOperator{\Proj}{Proj}
 \DeclareMathOperator{\Perp}{Perp}
 \DeclareMathOperator{\Span}{Span}

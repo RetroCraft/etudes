@@ -1,0 +1,614 @@
+\documentclass[notes,tikz]{agony}
+\usetikzlibrary{cd}
+\title{\emph{Algebra:\ Chapter 0} Exercises}
+
+\renewcommand{\thechapter}{\Roman{chapter}}
+
+\begin{document}
+\thispagestyle{firstpage}
+\renewcommand{\contentsname}{Exercises\\{\Large from Aluffi, \emph{Algebra:\ Chapter 0}}}
+\tableofcontents
+
+I am self-studying this alongside Riehl, \emph{Category Theory in Context},
+so there is a bit of mixed notation.
+
+\chapter{Preliminaries}
+
+\section{Naive set theory}
+
+\skipto{2}
+\begin{xca}
+  Prove that if $\sim$ is an equivalence relation on a set $S$,
+  then the corresponding family $\mathscr{P}_\sim$ is indeed a partition of $S$:
+  that is, its elements are nonempty, disjoint, and their union is $S$.
+\end{xca}
+\begin{prf}
+  An equivalence class $[a]_\sim$ is defined as $\{b \in S : b \sim a\}$
+  where $a \in S$.
+
+  Since $a \sim a$ by reflexivity, $a \in [a]_\sim$ and $[a]_\sim$ is nonempty.
+
+  Suppose $a \in [a]_\sim$ and $a \in [b]_\sim$, i.e., the classes are not disjoint.
+  Then, by definition, $a \sim b$ and $b \sim a$ by symmetry.
+  But for all $c \in [b]_\sim$, i.e., $c \sim b$,
+  we have $c \sim a$ by transitivity.
+  That is, $[b]_\sim \subseteq [a]_\sim$.
+  Likewise, for all $d \in [a]_\sim$, we have $d \sim a \sim b \implies d \sim b$,
+  so $[a]_\sim \subseteq [b]_\sim$ and in fact $[a]_\sim = [b]_\sim$.
+
+  Finally, notice that $[a]_\sim \subseteq S$ by definition.
+  Then, $\bigcup \mathscr{P} \subseteq S$
+  since all elements of equivalence classes come from $S$.
+  But $S \subseteq \bigcup \mathscr{P}$, since for all $a \in S$,
+  there exists $[a]_\sim \in \mathscr{P}$ which contains $a$.
+  Therefore, the union is exactly $S$.
+\end{prf}
+
+\begin{xca}
+  Given a partition $\mathscr{P}$ on a set $S$, show how to define a relation $\sim$ on $S$
+  such that $\mathscr{P}$ is the corresponding partition.
+\end{xca}
+\begin{sol}
+  Let $a, b \in S$ and $A, B \in \mathscr{P}$ be the sets containing $a$ and $b$, respectively.
+  Define $a \sim b \iff A = B$.
+\end{sol}
+
+\begin{xca}
+  How many different equivalence relations may be defined on the set $\{1,2,3\}$?
+\end{xca}
+\begin{sol}
+  Tackle the problem in general for a finite set $S$ of $n$ elements:
+  for every pair of elements $a, b \subset S$, $a \neq b$,
+  either $a \sim b$ or $a \nsim b$.
+  The number of pairs of distinct elements of $S$ is $\binom{n}{2} = \frac{n(n-1)}{2}$.
+
+  Therefore, there are $\frac{3(2)}{2} = 3$ possible equivalence relations on $\{1,2,3\}$.
+\end{sol}
+
+\begin{xca}
+  Give an example of a relation that is reflexive and symmetric but not transitive.
+  What happens if you attempt to use this relation to define a partition on the set?
+\end{xca}
+\begin{sol}
+  Let $S = \N$ and define $n \sim m \iff n \mid m \lor m \mid n$.
+  Since $n \mid n$, $\sim$ is reflexive and symmetry is built-in.
+  Then, $2 \sim 6$ and $6 \sim 3$, but $2 \nsim 3$.
+  That is, $\sim$ is not transitive.
+
+  If we try to define a partition, notice that $2 \in [6]_\sim$ and $3 \in [6]_\sim$,
+  but $[6]_\sim \neq [2]_\sim, [3]_\sim$.
+  The ``partition'' is no longer disjoint.
+\end{sol}
+
+\begin{xca}
+  Define a relation $\sim$ on $\R$ by setting $a \sim b \iff b-a \in \Z$.
+  Prove that this is an equivalence relation, and find a ``compelling'' description for $\R/{\sim}$.
+  Do the same for the relation $\approx$ on the plane $\R \times \R$
+  defined by declaring $(a_1, a_2) \approx (b_1, b_2) \iff b_1-a_1, b_2-a_2 \in \Z$.
+\end{xca}
+\begin{sol}
+  First, $a \sim a$ since $a-a = 0 \in \Z$.
+  Since negation of an integer is an integer, we also have
+  $a \sim b \iff b-a \in \Z \iff -(b-a) \in \Z \iff a-b \in \Z \iff b \sim a$.
+  Finally, if $b-a \in \Z$ and $c-b \in \Z$, then $(c-b)+(b-a) = c-a \in \Z$.
+  That is, $\sim$ is an equivalence relation.
+
+  Consider $\R/{\sim}$. The difference $b-a$ is an integer if and only if
+  $b$ and $a$ have the same fractional part (e.g., $3.4 - 1.4 = 2$).
+  Therefore, $\R/{\sim}$ is the set of fractional parts, i.e., the interval $[0,1)$.
+
+  It follows for $\approx$ that $\R/{\approx} = [0,1)^2$.
+\end{sol}
+
+\section{Functions between sets}
+
+\begin{xca}
+  How many different bijections are there between a set $S$ with $n$ elements
+  and itself?
+\end{xca}
+\begin{sol}
+  If we give elements of $S$ an arbitrary ordering from 1 to $n$,
+  consider assigning another order to $S$ (and then matching elements in the same spot).
+  The number of ways to permute $n$ elements is $n!$.
+\end{sol}
+
+\begin{xca}
+  Prove that $f$ has a right-inverse if and only if it is surjective.
+\end{xca}
+\begin{sol}
+  ($\Rarr$) Suppose $f : A \to B$ has a right-inverse $g : B \to A$.
+  Let $b \in B$. Then, $f(g(b)) = \id_B(b) = b$.
+  That is, an element $a := g(b) \in A$ exists such that $f(a) = b$,
+  i.e., $f$ is surjective.
+
+  ($\Larr$) Suppose $f$ is surjective and let $b \in B$.
+  There exists some $a$ (which we pick arbitrarily) such that $f(a) = b$.
+  Define $g(b) := a$.
+  We can do this for all $b$, so $g : B \to A$ is a function.
+  Then, $f(g(b)) = f(a) = b$, so $f \circ g = \id_B$, and we are done.
+\end{sol}
+
+\begin{xca}
+  Prove that the inverse of a bijection is a bijection
+  and that the composition of two bijections is a bijection.
+\end{xca}
+\begin{sol}
+  Let $f : A \to B$ be a bijection.
+  Then, there exists a two-sided inverse $g : B \to A$
+  such that $g \circ f = \id_A$ and $f \circ g = \id_B$.
+  But this is exactly what it means for $f$ to be the two-sided inverse of $g$,
+  so $g$ is a bijection.
+
+  Now, let $f : A \to B$ and $g : B \to C$ be bijections with inverses $f^{-1}$ and $g^{-1}$.
+
+  Consider the composition $h := g \circ f : A \to C$.
+  We have $(f^{-1} \circ g^{-1}) \circ h = \id_A$ since $f^{-1}(g^{-1}(g(f(a)))) = f^{-1}(f(a)) = a$.
+  Likewise, $h \circ (f^{-1} \circ g^{-1}) = \id_B$ since $g(f(f^{-1}(g^{-1}(b)))) = g(g^{-1}(b)) = b$.
+  Therefore, $(f^{-1} \circ g^{-1}) = h^{-1}$ and $h$ is a bijection.
+\end{sol}
+
+\begin{xca}
+  Prove that ``isomorphism'' is an equivalence relation (on any set of sets).
+\end{xca}
+\begin{sol}
+  Let $A$, $B$, and $C$ be sets of sets.
+  Notice that (any) identity function is its own two-sided inverse since $\id(\id(a)) = a$.
+  Therefore, $A \cong A$.
+
+  Suppose $A \cong B$. Then, there exists a bijection $f : A \to B$.
+  But the inverse $f^{-1} : B \to A$ is a bijection (Exercise 3), so $B \cong A$.
+
+  Finally, suppose $A \cong B$ and $B \cong C$.
+  That is, there exist bijections $f : A \to B$ and $g : B \to C$.
+  The composition $h := g \circ f : A \to C$ is a bijection (Exercise 3), so $A \cong C$.
+\end{sol}
+
+\begin{xca}
+  Formulate a notion of epimorphism, in the style of the notion of monomorphism,
+  and prove that a function is surjective if and only if it is an epimorphism.
+\end{xca}
+\begin{sol}
+  Define an epimorphism as a function $f : A \to B$ such that for all sets $Z$
+  and functions $\zeta, \zeta' : B \toto Z$, $\zeta \circ f = \zeta' \circ f \implies \zeta = \zeta'$.
+
+  ($\Larr$) Suppose that $f$ is surjective and $\zeta \circ f = \zeta' \circ f$.
+  Then, $f$ has a right-inverse $g$, such that
+  \begin{align*}
+    \zeta \circ f \circ g & = \zeta' \circ f \circ g \\
+    \zeta \circ \id_B     & = \zeta' \circ \id_B     \\
+    \zeta                 & = \zeta'
+  \end{align*}
+  as desired.
+
+  ($\Rarr$) Suppose that $f$ is epic, i.e.,
+  $\zeta \circ f = \zeta' \circ f \implies \zeta = \zeta'$.
+  Then, whenever $b =: f(a)$ is in the image of $f$,
+  we must have $\zeta(f(a)) = \zeta(b) = \zeta'(b) = \zeta'(f(a))$.
+  If $f$ is not surjective, then we could pick $\zeta$ and $\zeta'$
+  such that they disagree on a $b$ not in the image of $f$.
+  Therefore, $f$ must be surjective.
+\end{sol}
+
+% \begin{xca}
+%   Explain how any function $f : A \to B$ determines a section of $\pi_A$
+% \end{xca}
+% TODO: don't understand what's being asked
+
+\skipto{7}
+\begin{xca}
+  Let $f : A \to B$ be any function.
+  Prove that the graph $\Gamma_f$ of $f$ is isomorphic to $A$.
+\end{xca}
+\begin{prf}
+  Recall that $\Gamma_f := \{(a,b) \in A \times B \mid b = f(a)\}$.
+
+  We can apply the natural projection $\pi_A : \Gamma_f \to A$
+  by picking the first element from the pair.
+  Then, notice that we can define an inverse $\pi_A^{-1}(a) = (a, f(a)) = (a, b)$.
+  This is a bijection.
+
+  Therefore, $\Gamma_f \cong A$.
+\end{prf}
+
+\begin{xca}
+  Describe as explicitly as you can all terms in the canonical decomposition
+  of the function $f : \R \to \C : r \mapsto e^{2\pi i r}$.
+\end{xca}
+\begin{sol}
+  Let $\sim$ be the equivalence relation defined by $f$.
+  Notice that $f(r)$ is cyclic and is the complex number $2\pi r$ radians along the unit circle,
+  i.e., $r$ rotations.
+
+  The canonical projection $\R \to \R/{\sim}$ sends each $r$
+  to its fractional part in $[0,1)$.
+  Then, the bijection $\tilde f([r]_\sim) = e^{2\pi i r}$ where $r \in [0,1)$.
+  Finally, there is a natural injection from the unit circle to $\C$.
+\end{sol}
+
+\begin{xca}
+  Show that if $A' \cong A''$ and $B' \cong B''$,
+  and further $A' \cap B' = \varnothing$ and $A'' \cap B'' = \varnothing$,
+  then $A' \cup B' \cong A'' \cup B''$.
+  Conclude that the operation $A \coprod B$ is well-defined up to isomorphism.
+\end{xca}
+\begin{prf}
+  Let $f : A' \to A''$ and $g : B' \to B''$ be bijections.
+  Since $A'$ and $B'$ are disjoint, every $c \in A' \cup B'$ is either in $A'$ or $B'$.
+  Give the bijection explicitly:
+  \[
+    h : A' \cup B' \to A'' \cup B'' : c \mapsto \begin{cases}
+      f(c) & c \in A' \\
+      g(c) & c \in B'
+    \end{cases}
+  \]
+  which is well-defined since the cases are mutually exclusive
+  and both $f(c)$ and $g(c)$ are present in $A'' \cup B''$.
+
+  Likewise, since $A''$ and $B''$ are disjoint, every $d \in A'' \cup B''$
+  is either in $A''$ or $B''$. That is, we can write
+  \[
+    h^{-1} : A'' \cup B'' \to A' \cup B' : d \mapsto \begin{cases}
+      f^{-1}(d) & d \in A'' \\
+      g^{-1}(d) & d \in B''
+    \end{cases}
+  \]
+  with the same results.
+  This is trivially the inverse of $h$.
+
+  Since there is a bijection, $A' \cup B' \cong A'' \cup B''$.
+  Therefore, since we define the operation $A \coprod B$
+  by the union of disjoint ``copies'' of sets,
+  these are all equal up to isomorphism.
+\end{prf}
+
+\begin{xca}
+  Show that if $A$ and $B$ are finite sets, then $\abs{B^A} = \abs{B}^{\abs{A}}$.
+\end{xca}
+\begin{prf}
+  A function $f : A \to B$ is fully defined by its graph,
+  which associates with every element of $A$ an element of $B$.
+  That is, it makes $\abs{A}$ choices between $\abs{B}$ elements,
+  of which there are $\abs{B}^{\abs{A}}$ ways to do so.
+\end{prf}
+
+\begin{xca}
+  In view of Exercise 10, it is not unreasonable to use $2^A$
+  to denote the set of functions from an arbitrary set $A$ to a set with two elements (say ${0, 1}$).
+  Prove that there is a bijection between $2^A$ and the power set of $A$.
+\end{xca}
+\begin{prf}
+  We can define a subset of $A$, i.e., an element of its power set,
+  by whether it includes or excludes each element of $A$.
+  That is, we have the bijection
+  \begin{align*}
+    f      & : 2^A \to \mathcal{P}(A) : b \mapsto \{ a \in A \mid b(a) = 1 \} \\
+    f^{-1} & : \mathcal{P}(A) \to 2^A : S \mapsto b(a) = \begin{cases}
+                                                           1 & a \in S     \\
+                                                           0 & a \not\in S
+                                                         \end{cases}
+  \end{align*}
+  as desired.
+\end{prf}
+
+\section{Categories}
+
+\begin{xca}
+  Let $\cat{C}$ be a category. Consider a structure $\cat{C\op}$ with
+  \begin{itemize}[nosep]
+    \item $\Obj(\cat{C\op}) := \Obj(\cat{C})$;
+    \item for $A$, $B$ objects of $\cat{C\op}$, $\Hom[C\op](A,B) := \Hom[C](B,A)$.
+  \end{itemize}
+  Show how to make this into a category.
+\end{xca}
+\begin{sol}
+  Let $f \in \Hom[C\op](A,B)$ and $g \in \Hom[C\op](B,C)$.
+  That is, arrows $f'$ from $B$ to $A$ and $g'$ from $C$ to $B$ exist in $\cat{C}$.
+  Then, $gf$ is an arrow in $\Hom[C\op](A,C)$
+  because the arrow $g'f'$ exists in $\Hom[C](C,A)$.
+
+  Identities from $\cat{C}$ transfer to $\cat{C\op}$:
+  the endomorphisms remain unchanged since $\Hom[C\op](A,A) := \Hom[C](A,A)$
+  and associativity also trivially transfers.
+\end{sol}
+
+\begin{xca}
+  If $A$ is a finite set, how large is $\End[Set](A)$?
+\end{xca}
+\begin{sol}
+  This is the number of set functions from $A$ to itself,
+  which we already calculated earlier to be $\abs{A}^{\abs{A}}$.
+\end{sol}
+
+\begin{xca}
+  Formulate precisely what it means to say that $1_a$
+  is an identity with respect to composition in Example 3.3
+  (given by a reflexive and transitive $\sim$ over $S$),
+  and prove this assertion.
+\end{xca}
+\begin{sol}
+  The morphism $1_a \in \Hom(a,a)$
+  must have the property that $1_af = f$ and $g1_a = g$
+  for all $f \in \Hom(b,a)$ and $g \in \Hom(a,c)$.
+
+  If such morphisms exist, then $f = (b,a)$ and $g = (a,c)$.
+  Then, $1_a f = (b, a) = f$ as well, since $1_a f$ must be in $\Hom(b,a)$,
+  which contains only one element $f$.
+  Likewise, $g 1_a = (a, c) = g$.
+\end{sol}
+
+\begin{xca}
+  Can we define a category in the style of Example 3.3 (using $\leq$)
+  using the relation $<$ on the set $\Z$?
+\end{xca}
+\begin{sol}
+  No, since we do not get an identity $1_n$ in $\Hom(n,n)$
+  (since $n \not< n$).
+\end{sol}
+
+\begin{xca}
+  Explain in what sense Example 3.4 (using $\subseteq$)
+  is an instance of the categories considered in Example 3.3 (using $\sim$).
+\end{xca}
+\begin{sol}
+  The category $\cat{\hat S}$ is just the category from Example 3.3
+  defined over the set $\mathcal{P}(S)$
+  with the equivalence relation $A \sim B \iff A \subseteq B$.
+\end{sol}
+
+\begin{xca}
+  Define a category $\cat V$ by taking $\Obj(\cat V) = \N$
+  and letting $\Hom[V](n, m) =$ the set of $m \times n$ matrices with real entries,
+  for all $n,m \in \N$.
+  (I will leave the reader the task of making sense of a matrix with 0 rows or columns.)
+  Use the product of matrices to define composition.
+  Does this category ``feel'' familiar?
+\end{xca}
+\begin{sol}
+  This ``feels'' like a category of linear transformations between dimensions.
+  A 0-dimensional vector space is a singleton, so we will say that a $0 \times n$
+  matrix is like the zero matrix, and an $m \times 0$ matrix is like an $m$-dimensional vector.
+  Verify the axioms.
+
+  The square identity matrices $I_n$ fall into $\Hom[V](n,n)$
+  and have the property that $A I_n = A$ and $I_n B = B$ for all $m \times n$ matrices $A$
+  and $n \times m$ matrices $B$.
+  Associativity follows from matrix multiplication.
+  Composition also follows, since the multiplication
+  of any real-valued $m \times n$ matrix by an $n \times p$ matrix
+  is a well-defined $m \times p$ matrix.
+\end{sol}
+
+\begin{xca}
+  Define carefully objects and morphisms in Example 3.7 (coslice categories),
+  and draw the diagram corresponding to composition.
+\end{xca}
+\begin{sol}
+  This is the opposite of the slice category, so we will call it $\cat{C}\op_A$.
+  Like in Example 3.5, everything inherits from $\cat C$.
+
+  The objects are morphisms from $\Hom[C](A,Z)$ for any $Z$.
+  The morphisms are morphisms from $\Hom[C]$ between the other two non-$A$ endpoints of the object.
+
+  For $f : A \to Z$ in $\cat C\op_A$, the identity $1_f$ is
+  \begin{tikzcd}[column sep=small]
+                        & A \arrow[dl, "f"] \arrow[dr, "f"] &   \\
+    Z \arrow[rr, "1_Z"] &                                   & Z
+  \end{tikzcd}
+
+  Commutativity is
+  \begin{tikzcd}
+                            & A \arrow[dl, "f_1"] \arrow[d,"f_2"] \arrow[dr, "f_3"] &     \\
+    Z_1 \arrow[r, "\sigma"] & Z_2 \arrow[r, "\tau"]                                 & Z_3
+  \end{tikzcd}
+  becoming
+  \begin{tikzcd}
+                                 & A \arrow[dl, "f_1"] \arrow[dr, "f_3"] &     \\
+    Z_1 \arrow[rr, "\sigma\tau"] &                                       & Z_3
+  \end{tikzcd}
+  as desired.
+\end{sol}
+
+\begin{xca}
+  A \term{subcategory} $\cat C'$ of a category $\cat C$ consists of
+  a collection of objects of $\cat C$ with sets of morphisms $\Hom[C'](A,B) \subseteq \Hom[C](A,B)$
+  for all objects $A$, $B$ in $\Obj(\cat C')$,
+  such that identities and compositions in $\cat C$ make $\cat C'$ into a category.
+  A subcategory $C'$ is \term{full} if $\Hom[C'](A,B) = \Hom[C](A,B)$
+  for all $A$, $B$ in $\Obj(\cat C')$.
+
+  Construct a category of infinite sets
+  and explain how it may be viewed as a full subcategory of $\cat{Set}$.
+\end{xca}
+\begin{sol}
+  Let $\cat{InfSet}$ be the category such that
+  the objects are infinite sets and morphisms are set functions between them.
+  Then, since infinite sets are sets, $\Obj(\cat{InfSet}) \subseteq \Obj(\cat{Set})$.
+  We are also taking all set functions between infinite sets,
+  so $\Hom[InfSet](A,B) = \Hom[Set](A,B)$.
+
+  Now, the identities on infinite sets $1_A : A \to A$
+  exist and are included in $\cat{InfSet}$.
+
+  Also, the composition of set functions $f : A \to B$ and $g : B \to C$
+  is a set function $gf : A \to C$.
+  Since $A$ and $C$ are infinite sets, we include the composition in $\Hom[InfSet](A,C)$.
+
+  Therefore, $\cat{InfSet}$ is a full subcategory of $\cat{Set}$.
+\end{sol}
+
+\begin{xca}
+  An alternative to the notion of a multiset is obtained by considering sets
+  endowed with equivalence relations;
+  equivalent elements are taken to be multiple instances of elements ``of the same kind''.
+
+  Define a notion of morphism between such enhanced sets,
+  obtaining a category $\cat{MSet}$ containing (a ``copy'' of) $\cat{Set}$ as a full subcategory.
+
+  Which objects in $\cat{MSet}$ determine ordinary multisets as defined in \S2.2 and how?
+  Spell out what a morphism of multisets would be from this point of view.
+\end{xca}
+\begin{sol}
+  A morphism $f : (A,\sim) \to (B,\approx)$ between two multisets
+  is a set function $f' : A \to B$ such that
+  for all $x$ and $y$ in $A$, $x \sim y \implies f'(x) \approx f'(y)$.
+
+  We can define the subcategory $\cat{Set'}$ with objects
+  as all the multisets $(A,=)$ where $=$ is ``true'' (set) equality.
+  Then, every morphism between these ``sets'' must respect equality, i.e.,
+  this is a full subcategory.
+
+  In \S2.2, multisets are defined as functions from sets to $\N^*$
+  which return the multiplicity of a given element.
+  For $(A,\sim) \in \Obj(\cat{MSet})$, we can construct the set function
+  $m : A \to \N^* : a \mapsto \abs{[a]_\sim}$.
+  Then, a morphism $(A,\sim) \to (B,\approx)$ is a function $A/{\sim} \to B/{\approx}$
+  between the sets of equivalence classes.
+\end{sol}
+
+\begin{xca}
+  Since the objects of a category $\cat C$ are not (necessarily interpreted as) sets,
+  it is not clear how to make sense of a notion of ``subobject'' in general.
+  In some situations it does make sense to talk about subobjects,
+  and the subobjects of any given object $A$ in $\cat C$ are in one-to-one correspondence
+  with the morphisms $A \to \Omega$ for a fixed, special object $\Omega$ of $\cat C$,
+  called a subobject classifier.
+
+  Show that $\cat{Set}$ has a subobject classifier.
+\end{xca}
+\begin{prf}
+  Let $\Omega = \{\symsf{true},\symsf{false}\}$.
+  We then have a one-to-one correspondence between subsets of an object (set) $A$
+  and morphisms (set functions) $A \to \Omega$.
+
+  For $B \subseteq A$, let $b : A \to \Omega : b(a) = (b \in B)$.
+  Likewise, for $f : A \to \Omega$, let $F = {\{a \in A : f(a) = \symsf{true}\}}$.
+  Since a set is uniquely defined by its elements,
+  this is a one-to-one correspondence, as desired.
+\end{prf}
+
+\begin{xca}
+  Draw the relevant diagrams and define composition and identities for the
+  category $\cat C^{A,B}$ mentioned in Example 3.9.
+  Do the same for the category $\cat C^{\alpha,\beta}$ mentioned in Example 3.10.
+\end{xca}
+\begin{sol}
+  We define the objects of $\cat C^{A,B}$ to be tuples $(Z,f,g)$ in $\cat C$
+  such that the diagram
+  \begin{center}
+    \begin{tikzcd}[row sep=tiny]
+      A \arrow[dr,"f"]  &   \\
+                        & Z \\
+      B  \arrow[ur,"g"] &
+    \end{tikzcd}
+  \end{center}
+  commutes and a morphism $(Z_1,f_1,g_1) \to (Z_2,f_2,g_2)$ to be a morphism $\sigma : Z_1 \to Z_2$
+  such that the diagram
+  \begin{center}
+    \begin{tikzcd}[row sep=tiny]
+      A \arrow[rrd, bend left,"f_1"] \arrow[rd,"f_2"]  &                        &     \\
+                                                       & Z_1 \arrow[r,"\sigma"] & Z_2 \\
+      B \arrow[rru, bend right,"g_1"] \arrow[ru,"f_2"] &                        &
+    \end{tikzcd}
+  \end{center}
+  commutes.
+
+  To compose $\sigma : Z_1 \to Z_2$ with $\tau : Z_2 \to Z_3$,
+  we can show that the diagram
+  \begin{center}
+    \begin{tikzcd}[row sep=tiny]
+      A \arrow[rd, "f_1"'] \arrow[rrrd, "f_3"', bend left] &                              &  &     \\
+                                                           & Z_1 \arrow[rr, "\tau\sigma"] &  & Z_3 \\
+      B \arrow[ru, "g_1"] \arrow[rrru, "g_3", bend right]  &                              &  &
+    \end{tikzcd}
+  \end{center}
+  commutes, which follows from the fact that based on the definitions of $\sigma$ and $\tau$,
+  \begin{center}
+    \begin{tikzcd}
+      A \arrow[rrd, "f_2"', bend left] \arrow[rd, "f_1"'] \arrow[rrrd, "f_3"', bend left] &                         &                       &     \\
+                                                                                          & Z_1 \arrow[r, "\sigma"] & Z_2 \arrow[r, "\tau"] & Z_3 \\
+      B \arrow[rru, "g_2", bend right] \arrow[ru, "g_1"] \arrow[rrru, "g_3", bend right]  &                         &                       &
+    \end{tikzcd}
+  \end{center}
+  must commute.
+
+  The identities in $\cat C^{A,B}$ are the same from $\cat C$,
+  e.g., $1_{Z_2} : Z_2 \to Z_2$, representing the diagram
+  \begin{center}
+    \begin{tikzcd}[row sep=tiny]
+      A \arrow[rrd, bend left,"f_2"] \arrow[rd,"f_2"]  &                         &     \\
+                                                       & Z_2 \arrow[r,"1_{Z_2}"] & Z_2 \\
+      B \arrow[rru, bend right,"g_2"] \arrow[ru,"g_2"] &                         &
+    \end{tikzcd}
+  \end{center}
+  since if we compose on the left with the morphism $\sigma$ we get the diagram
+  \begin{center}
+    \begin{tikzcd}
+      A \arrow[rrd, "f_2"', bend left] \arrow[rd, "f_1"'] \arrow[rrrd, "f_2"', bend left] &                         &                          &     \\
+                                                                                          & Z_1 \arrow[r, "\sigma"] & Z_2 \arrow[r, "1_{Z_2}"] & Z_2 \\
+      B \arrow[rru, "g_2", bend right] \arrow[ru, "g_1"] \arrow[rrru, "g_2", bend right]  &                         &                          &
+    \end{tikzcd}
+    which becomes
+    \begin{tikzcd}
+      A \arrow[rrrd, bend left,"f_2"] \arrow[rd,"f_1"]  &                         &  &     \\
+                                                        & Z_1 \arrow[rr,"\sigma"] &  & Z_2 \\
+      B \arrow[rrru, bend right,"g_2"] \arrow[ru,"g_1"] &                         &  &
+    \end{tikzcd}
+  \end{center}
+  which is the original diagram for $\sigma$ (and likewise if we compose on the right with $1_{Z_1}$).
+
+  Now, consider $\cat C^{\alpha,\beta}$ for fixed morphisms $\alpha : C \to A$
+  and $\beta : C \to B$ with the same source.
+  The objects are tuples $(Z,f,g)$ such that the diagram
+  \begin{center}
+    \begin{tikzcd}[row sep=tiny]
+                                               & A \arrow[rd,"f"]  &   \\
+      C \arrow[ru,"\alpha"]\arrow[rd,"\beta"'] &                   & Z \\
+                                               & B \arrow[ru,"g"'] &
+    \end{tikzcd}
+  \end{center}
+  commutes in $\cat C$ (i.e., $f\alpha = g\beta$).
+  A morphism $(Z_1,f_1,g_1) \to (Z_2,f_2,g_2)$ is a morphism $\sigma : Z_1 \to Z_2$
+  such the diagram
+  \begin{center}
+    \begin{tikzcd}[row sep=tiny]
+                                               & A \arrow[rd,"f_1"]\arrow[rrd,"f_2",bend left]   &                        &     \\
+      C \arrow[ru,"\alpha"]\arrow[rd,"\beta"'] &                                                 & Z_1 \arrow[r,"\sigma"] & Z_2 \\
+                                               & B \arrow[ru,"g_1"']\arrow[rru,"g_2",bend right] &                        &
+    \end{tikzcd}
+  \end{center}
+  commutes (i.e., $f_2\alpha = \sigma f_1 \alpha = \sigma g_1 \beta = g_2\beta$).
+
+  Composition of $\sigma : Z_1 \to Z_2$ with $\tau : Z_2 \to Z_3$ gives us
+  \begin{center}
+    \begin{tikzcd}
+                                                  & A \arrow[rrd, "f_2"', bend left] \arrow[rd, "f_1"'] \arrow[rrrd, "f_3"', bend left] &                         &                       &     \\
+      C \arrow[ru, "\beta"'] \arrow[rd, "\alpha"] &                                                                                     & Z_1 \arrow[r, "\sigma"] & Z_2 \arrow[r, "\tau"] & Z_3 \\
+                                                  & B \arrow[rru, "g_2", bend right] \arrow[ru, "g_1"] \arrow[rrru, "g_3", bend right]  &                         &                       &
+    \end{tikzcd}
+    becoming
+    \begin{tikzcd}
+                                                  & A \arrow[rd, "f_1"'] \arrow[rrrd, "f_3"', bend left] &                              &  &     \\
+      C \arrow[ru, "\beta"'] \arrow[rd, "\alpha"] &                                                      & Z_1 \arrow[rr, "\tau\sigma"] &  & Z_3 \\
+                                                  & B \arrow[ru, "g_1"] \arrow[rrru, "g_3", bend right]  &                              &  &
+    \end{tikzcd}
+  \end{center}
+  just as above.
+
+  Finally, the identity for $(Z,f,g)$ is again simply $1_Z$ since
+  \begin{center}
+    \begin{tikzcd}
+                                                  & A \arrow[rrd, "f_2"', bend left] \arrow[rd, "f_1"'] \arrow[rrrd, "f_2"', bend left] &                         &                          &     \\
+      C \arrow[ru, "\beta"'] \arrow[rd, "\alpha"] &                                                                                     & Z_1 \arrow[r, "\sigma"] & Z_2 \arrow[r, "1_{Z_2}"] & Z_2 \\
+                                                  & B \arrow[rru, "g_2", bend right] \arrow[ru, "g_1"] \arrow[rrru, "g_2", bend right]  &                         &                          &
+    \end{tikzcd}
+    becomes
+    \begin{tikzcd}
+                                                  & A \arrow[rd, "f_1"'] \arrow[rrrd, "f_2"', bend left] &                          &  &     \\
+      C \arrow[ru, "\beta"'] \arrow[rd, "\alpha"] &                                                      & Z_1 \arrow[rr, "\sigma"] &  & Z_2 \\
+                                                  & B \arrow[ru, "g_1"] \arrow[rrru, "g_2", bend right]  &                          &  &
+    \end{tikzcd}
+  \end{center}
+  which is just $\sigma$.
+\end{sol}
+
+\end{document}
