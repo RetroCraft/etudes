@@ -436,7 +436,7 @@ so there is a bit of mixed notation.
   Therefore, $\cat{InfSet}$ is a full subcategory of $\cat{Set}$.
 \end{sol}
 
-\begin{xca}
+\begin{xca}\label{msets}
   An alternative to the notion of a multiset is obtained by considering sets
   endowed with equivalence relations;
   equivalent elements are taken to be multiple instances of elements ``of the same kind''.
@@ -460,7 +460,7 @@ so there is a bit of mixed notation.
   In \S2.2, multisets are defined as functions from sets to $\N^*$
   which return the multiplicity of a given element.
   For $(A,\sim) \in \Obj(\cat{MSet})$, we can construct the set function
-  $m : A \to \N^* : a \mapsto \abs{[a]_\sim}$.
+  $m : A/{\sim} \to \N^* : [a]_\sim \mapsto \abs{[a]_\sim}$.
   Then, a morphism $(A,\sim) \to (B,\approx)$ is a function $A/{\sim} \to B/{\approx}$
   between the sets of equivalence classes.
 \end{sol}
@@ -610,5 +610,84 @@ so there is a bit of mixed notation.
   \end{center}
   which is just $\sigma$.
 \end{sol}
+
+\section{Morphisms}
+
+% TODO: 4.1 looks super tedious
+
+\skipto{2}
+\begin{xca}
+  In Example 3.3 we have seen how to construct a category from a set endowed with a relation,
+  provided this latter is reflexive and transitive.
+  For what types of relations is the corresponding category a groupoid?
+\end{xca}
+\begin{sol}
+  Let $(\cat S, \sim)$ be a category defined as in Example 3.3.
+  A groupoid is a category where all morphisms have inverses.
+  That is, for $a,b \in \cat S$, if there is a relation $a \sim b$,
+  there must also be a relation $b \sim a$.
+  Therefore, $(\cat S, \sim)$ is a groupoid whenever $\sim$ is symmetric, i.e.,
+  $\sim$ is an equivalence relation.
+\end{sol}
+
+\begin{xca}
+  Let $A$, $B$ be objects of a category $\cat C$, and let $f \in \Hom[C](A, B)$ be a morphism.
+
+  Prove that if $f$ has a right-inverse, then $f$ is an epimorphism.
+  Show that the converse does not hold,
+  by giving an explicit example of a category and an epimorphism without a right-inverse.
+\end{xca}
+\begin{prf}
+  Let $g : B \to A$ be the right-inverse of $f$, so $fg = 1_B$.
+  Now, let $h,k : B \toto C$ and suppose $hf = kf$.
+  Composing on the right by $g$, we have
+  \[ h = h1_B = h(fg) = (hf)g = (kf)g = k(fg) = k1_B = k. \]
+  That is, $f$ is epic.
+
+  Now, consider the category $(\Z,\leq)$ as defined in Example 3.3 and Exercise 4.2.
+  If we let $h,k : 1 \toto 2$, we \emph{must} have $h = k$
+  since there is only one relation $1 \leq 2$ in $\Hom[\Z](1,2)$.
+  But $2 \leq 1$ is not a morphism, so there is no inverse.
+  That is, all morphisms are epic, but none have inverses.
+\end{prf}
+
+\begin{xca}
+  Prove that the composition of two monomorphisms is a monomorphism. 
+  Deduce that one can define a subcategory $\cat{C_{mono}}$ of a category $\cat C$
+  by taking the same objects as in $\cat C$ and defining $\Hom[C_{mono}](A, B)$
+  to be the subset of $\Hom[C](A, B)$ consisting of monomorphisms, for all objects $A$, $B$.
+  Do the same for epimorphisms.
+  
+  Can you define a subcategory $\cat{C_{nonmono}}$ of $\cat C$
+  by restricting to morphisms that are not monomorphisms?
+\end{xca}
+\begin{prf}
+  See Riehl, Exercise 1.2.iii for existence of $\cat{C_{mono}}$ and $\cat{C_{epi}}$.
+
+  The subcategory $\cat{C_{nonmono}}$ cannot exist because identity morphisms are monic,
+  i.e., for all $h,k : A \toto B$, $1_Bh = 1_Bk \implies h = k$.
+  Since we must have the identity morphisms in a subcategory,
+  this subcategory does not exist.
+\end{prf}
+
+\begin{xca}
+  Give a concrete description of monomorphisms and epimorphisms
+  in the category $\cat{MSet}$ you constructed in \Cref{msets}.
+\end{xca}
+\begin{sol}
+  A monomorphism $f : (A,\sim) \mono (B,\approx)$ in $\cat{MSet}$
+  is a set function $f' : A \to B$ that is injective with respect to equivalence.
+  That is, if $f'(a_1) \approx f'(a_2)$, then $a_1 \sim a_2$.
+
+  Likewise, an epimorphism $g : (A,\sim) \epi (B,\approx)$
+  is a set function $g' : A \to B$ that is surjective with respect to equivalence.
+  That is, for all $b$, there exists an $a$ such that $g'(a) \approx b$.
+\end{sol}
+
+\section{Universal properties}
+
+\begin{xca}
+  
+\end{xca}
 
 \end{document}

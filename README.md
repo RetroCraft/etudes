@@ -2,7 +2,7 @@
 
 This is an index of _études_, or short problems, used to practice and hone particular skills.
 
-In particular, this repository grew out of a desire to separate out non-coursework from the [agony archive](https://agony.retrocraft.ca) (which contains course-related problems and study material from myself and my classmates) and put all the random quasiacademic sidequesting in one place.
+In particular, this repository grew out of a desire to separate out non-coursework from the [agony archive](https://agony.retrocraft.ca) (which contains course-related problems and study material from myself and my classmates) and put all the random quasiacademic sidequesting in one place. LaTeX files are compiled with the [`agony` class](https://github.com/RetroCraft/problems/blob/master/latex/agony.cls).
 
 Unless otherwise indicated, content is released under a CC-BY-SA 4.0 license.
 
@@ -14,7 +14,12 @@ Unless otherwise indicated, content is released under a CC-BY-SA 4.0 license.
 
 ### Cybersecurity
 
-- CTF challenge [writeups](https://github.com/TeamOm3ga/writeups).
+- CTF challenge [writeups](https://github.com/TeamOm3ga/writeups) by myself and my team.
+
+### Abstract algebra
+
+- [Exercises](abstract-algebra/aluffi.pdf) from _Algebra: Chapter 0_, by Aluffi.
+- [Exercises](category-theory/riehl.tex) from _Category Theory in Context_, by Riehl.
 
 ### Linear algebra
 
