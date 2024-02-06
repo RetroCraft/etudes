@@ -8,13 +8,20 @@ Unless otherwise indicated, content is released under a CC-BY-SA 4.0 license.
 
 ## Contents
 
-### Computer science
+## Computer science
 
 - Ancient (from high school) [solutions](https://github.com/retrocraft/project-euler) to Project Euler problems. <!-- TODO: import that repository into this one somehow -->
 
 ### Cybersecurity
 
 - CTF challenge [writeups](https://github.com/TeamOm3ga/writeups) by myself and my team.
+- [Lecture notes](cybersecurity/CO485/notes.pdf) from CO 485 (The Mathematics of Public Key Cryptography) at the University of Waterloo.
+
+### Machine learning
+
+- [Lecture notes](machine-learning/CS886/audit.pdf) from CS 886 (Diffusion Models) at the University of Waterloo.
+
+## Mathematics
 
 ### Abstract algebra
 
