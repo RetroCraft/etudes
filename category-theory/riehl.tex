@@ -1,5 +1,12 @@
 \documentclass[notes,tikz]{agony}
 \usetikzlibrary{cd}
+\renewcommand{\C}{\cat{C}}
+\newcommand{\D}{\cat{D}}
+\newcommand{\E}{\cat{E}}
+\newcommand{\comma}{\mathbin{\downarrow}}
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator{\cod}{cod}
+
 \title{\emph{Category Theory in Context} Exercises}
 \renewcommand{\thexca}{\thesection.\roman{theorem}}
 \newcommand{\inenum}{\vspace{-1.8em}}
@@ -40,13 +47,13 @@ so there is a bit of mixed notation.
 \end{enumerate}
 
 \begin{xca}
-  Let $\cat C$ be a category.
-  Show that the collection of isomorphisms in $\cat C$ defines a subcategory,
-  the maximal groupoid inside $\cat C$.
+  Let $\C$ be a category.
+  Show that the collection of isomorphisms in $\C$ defines a subcategory,
+  the maximal groupoid inside $\C$.
 \end{xca}
 \begin{prf}
-  Let $X$, $Y$, and $Z$ be objects in $\cat C$.
-  We must show identity and composition, since we get associativity for free from $\cat C$.
+  Let $X$, $Y$, and $Z$ be objects in $\C$.
+  We must show identity and composition, since we get associativity for free from $\C$.
 
   The identity morphisms $1_X$ are isomorphisms, since they are their own inverses.
   Therefore, they are present in the maximal groupoid.
@@ -58,10 +65,10 @@ so there is a bit of mixed notation.
   Therefore, the maximal groupoid is in fact a category.
 \end{prf}
 
-\begin{xca}
-  For any category $\cat C$ and any object $c \in \cat C$, show that:
+\begin{xca}\label{xca:slice}
+  For any category $\C$ and any object $c \in \C$, show that:
   \begin{enumerate}
-    \item There is a category $c/\cat C$ whose objects are morphisms
+    \item There is a category $c/\C$ whose objects are morphisms
           $f : c \to x$ with domain $c$ and
           in which a morphism from $f : c \to x$ to $g : c \to y$
           is a map $h : x \to y$ between the codomains so that the triangle
@@ -72,7 +79,7 @@ so there is a bit of mixed notation.
             \end{tikzcd}
           \end{center}
           commutes, i.e., so that $g = hf$.
-    \item There is a category $\cat C/c$ whose objects are morphisms
+    \item There is a category $\C/c$ whose objects are morphisms
           $f : x \to c$ with codomain $c$ and
           in which a morphism from $f : x \to c$ to $g : y \to c$
           is a map $h : x \to y$ between the codomains so that the triangle
@@ -84,7 +91,7 @@ so there is a bit of mixed notation.
           \end{center}
           commutes, i.e., so that $f = gh$.
   \end{enumerate}
-  The categories $c/\cat C$ and $\cat C/c$ are called slice categories of $\cat C$ under and over $c$, respectively.
+  The categories $c/\C$ and $\C/c$ are called slice categories of $\C$ under and over $c$, respectively.
 \end{xca}
 \begin{enumerate}
   \item See Exercise I.3.7, Aluffi.
@@ -94,16 +101,16 @@ so there is a bit of mixed notation.
 \section{Duality}
 
 \begin{xca}
-  Defining $\cat C/c$ to be $(c/(\cat C\op))\op$,
+  Defining $\C/c$ to be $(c/(\C\op))\op$,
   deduce Exercise 1.1.iii(ii) from Exercise 1.1.iii(i).
 \end{xca}
 \begin{prf}
-  We must establish that $\cat C/c$ is in fact $(c/(\cat C\op))\op$.
+  We must establish that $\C/c$ is in fact $(c/(\C\op))\op$.
   Then, everything (inverses, composition, associativity) follows immediately from duality.
 
-  First, notice that in $c/(\cat C\op)$,
-  we have objects that are morphisms in $\cat C\op$, i.e.,
-  the same that are in $\cat C$ but backwards:
+  First, notice that in $c/(\C\op)$,
+  we have objects that are morphisms in $\C\op$, i.e.,
+  the same that are in $\C$ but backwards:
   \begin{center}
     \begin{tikzcd}[column sep=small]
                        & c \dlar["f\op" above] \drar["g\op"] &   \\
@@ -117,11 +124,11 @@ so there is a bit of mixed notation.
   \leavevmode
   \begin{enumerate}
     \item Show that a morphism $f : x \to y$ is a split epimorphism
-          in a category $\cat C$ if and only if for all $c \in \cat C$,
-          the post-composition function $f_* : \cat C(c,x) \to \cat C(c,y)$ is surjective.
+          in a category $\C$ if and only if for all $c \in \C$,
+          the post-composition function $f_* : \C(c,x) \to \C(c,y)$ is surjective.
     \item Argue by duality that $f$ is a split monomorphism if and only if
-          for all $c \in \cat C$, the pre-composition function
-          $f^* : \cat C(y,c) \to \cat C(x,c)$ is surjective.
+          for all $c \in \C$, the pre-composition function
+          $f^* : \C(y,c) \to \C(x,c)$ is surjective.
   \end{enumerate}
 \end{xca}
 \begin{enumerate}
@@ -143,19 +150,19 @@ so there is a bit of mixed notation.
           That is, $f$ is a split epimorphism, the retraction of $h'$.
         \end{prf}
   \item \begin{prf}\inenum
-          Apply part (i) to the category $\cat C\op$:
+          Apply part (i) to the category $\C\op$:
           \begin{quote}
-            $f\op \in \cat C\op(x,y)$ is a split epimorphism
-            if and only if for all $c \in \cat C\op$,
-            the post-composition function $f_*\op : \cat C\op(c,x) \to \cat C\op(c,y)$ is surjective.
+            $f\op \in \C\op(x,y)$ is a split epimorphism
+            if and only if for all $c \in \C\op$,
+            the post-composition function $f_*\op : \C\op(c,x) \to \C\op(c,y)$ is surjective.
           \end{quote}
           But this is exactly the same as saying
           \begin{quote}
-            $f \in \cat C(y,x)$ is a split monomorphism
-            if and only if for all $c \in \cat C$,
-            the pre-composition function $f^* : \cat C\op(x,c) \to \cat C\op(y,c)$ is surjective.
+            $f \in \C(y,x)$ is a split monomorphism
+            if and only if for all $c \in \C$,
+            the pre-composition function $f^* : \C\op(x,c) \to \C\op(y,c)$ is surjective.
           \end{quote}
-          because $\cat C\op(x,y) = \cat C(y,x)$
+          because $\C\op(x,y) = \C(y,x)$
           and a split epimorphism $f\op g\op = 1_y$
           becomes a split monomorphism $gf = 1_y$.
         \end{prf}
@@ -181,15 +188,15 @@ so there is a bit of mixed notation.
   Since $gf$ is monic, $h = k$.
 
   Now, we can show that the subcategory $\cat{C_{Monic}}$ of the same objects
-  as $\cat C$ and with only its monomorphisms is a category.
-  First, since for all $h,k \in \cat C(c,x)$,
+  as $\C$ and with only its monomorphisms is a category.
+  First, since for all $h,k \in \C(c,x)$,
   $1_xh = 1_xk \implies h = k$, we have the identities in $\cat{C_{Monic}}$.
   Then, due to (i), the compositions of all morphisms are in the subcategory.
   Since the objects are unchanged, we can conclude $\cat{C_{Monic}}$ is a subcategory.
 
-  Dually, the opposite monomorphism $f\op$ in $\cat C\op$ such that
+  Dually, the opposite monomorphism $f\op$ in $\C\op$ such that
   $f\op h\op = f\op k\op \implies h\op = k\op$ is the epimorphism
-  $f$ in $\cat C$ such that $hf = kf \implies h = k$.
+  $f$ in $\C$ such that $hf = kf \implies h = k$.
   Therefore, the dual of (i) is (i') and the dual of (ii) is (ii').
   Finally, the dual of the existence of the subcategory $\cat{C_{Monic}}$
   is a subcategory $\cat{C_{Epic}}$ of epimorphisms.
@@ -258,55 +265,170 @@ so there is a bit of mixed notation.
 
 \begin{xca}
   Find an example to show that the objects and morphisms in the image of a functor
-  $F : \cat C \to \cat D$ do not necessarily define a subcategory of $\cat D$.
+  $F : \C \to \D$ do not necessarily define a subcategory of $\D$.
 \end{xca}
 \begin{sol}
-  Let $\cat C$ be a groupoid with two groups
+  Let $\C$ be a groupoid with two groups
   generated by two elements $A = \ev{a}$ and $B = \ev{b}$:
   \begin{center}
     \begin{tikzcd}
       A \arrow["a"', loop, distance=2em, in=305, out=235] & B \arrow["b"', loop, distance=2em, in=305, out=235]
     \end{tikzcd}
   \end{center}
-  Let $\cat D$ be a groupoid with one group $G = \ev{\alpha,\beta}$.
-  Now, let $F : \cat C \to \cat D$ with $FA = FB = G$,
+  Let $\D$ be a groupoid with one group $G = \ev{\alpha,\beta}$.
+  Now, let $F : \C \to \D$ with $FA = FB = G$,
   $Fa = \alpha$, and $Fb = \beta$.
 
   The image of $F$ is not a category.
   Both $\alpha$ and $\beta$ are in the image, but their composition $\beta\alpha$ is not
-  since there was no $ba$ composition in $\cat C$.
+  since there was no $ba$ composition in $\C$.
 \end{sol}
 
 \begin{xca}
   Verify that the constructions introduced in Definition 1.3.11
-  (functors $\cat C(c,-)$ and $\cat C(-,c)$ represented by $c$) are functorial.
+  (functors $\C(c,-)$ and $\C(-,c)$ represented by $c$) are functorial.
 \end{xca}
 \begin{prf}
-  Recall that $\cat C(c,-) : \cat C \to \cat{Set}$
-  sends $x$ to the set $\cat C(c,x)$
+  Recall that $\C(c,-) : \C \to \cat{Set}$
+  sends $x$ to the set $\C(c,x)$
   and $f : x \to y$ to the post-composition function
-  $f_* : \cat C(c,x) \to \cat C(c,y) : h \mapsto fh$.
+  $f_* : \C(c,x) \to \C(c,y) : h \mapsto fh$.
   Verify the functoriality axioms:
 
   Let $f : x \to y$ and $g : y \to z$ be composable morphisms where $gf : x \to z$.
-  Then, $(gf)_* : \cat C(c,x) \to \cat C(c,z)$.
+  Then, $(gf)_* : \C(c,x) \to \C(c,z)$.
   We can verify that $(gf)_*(h) = (gf)h = g(f(h)) = g(f_*h) = g_*f_*h$ for all $h : c \to z$.
   That is, $(gf)_* = g_*f_*$.
 
   Consider an identity $1_x : x \to x$.
-  Then, the post-composition function $(1_x)_* : \cat C(c,x) \to \cat C(c,x)$
+  Then, the post-composition function $(1_x)_* : \C(c,x) \to \C(c,x)$
   sends morphisms to themselves because $h1_x = h$ and $1_xg = g$ by definition,
-  i.e., it is $1_{\cat C(c,x)}$.
+  i.e., it is $1_{\C(c,x)}$.
 \end{prf}
 
 \begin{xca}
-  What is the difference between a functor $\cat C\op \to \cat D$
-  and a functor $\cat C \to \cat D\op$?
-  What is the difference between a functor $\cat C \to \cat D$
-  and a functor $\cat C\op \to \cat D\op$?
+  What is the difference between a functor $\C\op \to \D$
+  and a functor $\C \to \D\op$?
+  What is the difference between a functor $\C \to \D$
+  and a functor $\C\op \to \D\op$?
 \end{xca}
 \begin{sol}
-  If $F : \cat C\op \to \cat D$ sends $f\op : a \to b$ to $g : x \to y$
+  If a contravariant functor $F : \C\op \to \D$
+  sends $a \mapsto x$ and $f\op : b \to a$ to $g : x \to y$,
+  then the ``same'' functor $F' : \C \to \D\op$
+  sends $a \mapsto x$ and $f : a \to b$ to $g\op : y \to x$.
+  For the functoriality axioms to hold,
+  we must have that $F' f = F f\op$ for all morphisms.
+  That is, we can consider $F'$ as the ``opposite functor'' to $F$
+  (in some sense, a composition of the opposite functor $\D \to \D\op$ and $F$).
+
+  Likewise, any functor $G : \C \to \D$
+  must also act as a contravariant functor $\C\op \to \D\op$.
+  If $GfGg = G(fg)$, then can apply the ``same'' mapping between objects and morphisms to get
+  $Gg\op Gf\op = G(g\op f\op) = G(gf)\op$.
 \end{sol}
+
+\begin{xca}\label{xca:comma}
+  Given functors $F : \D \to \C$, and $G : \E \to \C$,
+  show that there is a comma category $F \comma G$ which has
+  \begin{itemize}[nosep]
+    \item as objects, triples $(d \in \D, e \in \E, f : Fd \to Ge \in \C)$, and
+    \item as morphisms $(d,e,f) \to (d',e',f')$, a pair of morphisms $(h : d \to d', k : e \to e')$
+  \end{itemize}
+  so that
+  \begin{center}
+    \begin{tikzcd}
+      Fd \arrow[r, "f"] \arrow[d, "Fh"'] & Ge \arrow[d, "Gk"] \\
+      Fd' \arrow[r, "f'"']               & Ge'
+    \end{tikzcd}
+  \end{center}
+  commutes in $\C$, i.e., $f' (Fh) = (Gk) f$.
+  Define a pair of projection functors $\dom : F \comma G \to \D$
+  and $\cod : F \comma G \to \E$.
+\end{xca}
+% TODO feels very tedious
+
+\begin{xca}
+  Define functors to construct the slice categories $c/\C$ and $\C/c$ of \cref{xca:slice}
+  as special cases of comma categories constructed in \cref{xca:comma}.
+  What are the projection functors?
+\end{xca}
+\begin{sol}
+  For $c/\C$, let $\D$ be the category containing only $c$ and its identity $\id_c$.
+  Then, let $F : \D \to \C$ be the ``identity'' such that $Fc = c$.
+  Define $G : \C \to \C$ to also be the identity functor such that $Gx = x$ and $Gf = f$.
+
+  Then, objects in $F \comma G$ are triples $(c, x \in \C, f : c \to x \in \C)$
+  and morphisms $(c,x,f) \to (c,y,g)$ are pairs $(\id_c : c \to c, h : x \to y)$
+  such that the diagram
+  \begin{center}
+    \begin{tikzcd}[column sep=small]
+                    & c \dlar["f"'] \drar["g"] \arrow[loop, distance=2em, in=125, out=55, "\id_c"'] &   \\
+      x \ar[rr,"h"] &                                                                               & y
+    \end{tikzcd}
+  \end{center}
+  commutes.
+  This is almost exactly the definition of $c/\C$.
+  The domain functor sends every object $(c,x,f)$ to $c$ and morphism to $\id_c$.
+  The codomain functor sends every object $(c,x,f)$ to $x$
+  and morphism to $(\id_c,h)$ to $h$,
+  which recovers the exact definition of $c/\C$.
+
+  For $\C/c$, consider $G \comma F$, whose objects are triples $(x \in \C, c, f : x \to c \in \C)$
+  and morphisms $(x,c,f) \to (y,c,g)$ are pairs $(h : x \to y, \id_c : c \to c)$ such that
+  \begin{center}
+    \begin{tikzcd}[column sep=small]
+      x \drar["f"'] \ar[rr,"h"] &                                                         & y \dlar["g"] \\
+                                & c \arrow["\id_c"', loop, distance=2em, in=305, out=235] &
+    \end{tikzcd}
+  \end{center}
+  commutes.
+  This is almost exactly the definition of $\C/c$.
+  This time, the domain functor sends $(x,c,f) \mapsto x$ and $(h,\id_c) \mapsto h$,
+  which gives us exactly the definition of $\C/c$.
+  The codomain functor sends $(x,c,f) \mapsto c$ and $(h,\id_c) \to \id_c$.
+\end{sol}
+
+\begin{xca}
+  Lemma 1.3.8 shows that functors preserve isomorphisms.
+  Find an example to demonstrate that functors need not reflect isomorphisms:
+  that is, find a functor $F : \C \to \D$ and a morphism $f$ in $\C$
+  so that $Ff$ is an isomorphism in $\D$ but $f$ is not an isomorphism in $\C$.
+\end{xca}
+\begin{sol}
+  Imagine the two categories $\C$ (\begin{tikzcd}x \rar["f"] & y\end{tikzcd})
+  and $\D$ (\begin{tikzcd}a \rar["g", bend left] & b \lar["h", bend left]\end{tikzcd})
+  such that $g^{-1} = h$.
+
+  Define $F : \C \to \D$ such that $Fx = a$, $Fb = b$, and $Ff = g$.
+
+  Then, $Ff = g$ is an isomorphism but $f$ is not.
+\end{sol}
+
+\begin{xca}
+  For any group $G$, we may define other groups:
+  \begin{itemize}[nosep]
+    \item the center $Z(G) = \{ h \in G \mid \forall g \in G, hg = gh \}$,
+    \item the commutator subgroup $C(G)$, the subgroup generated by elements $ghg^{-1}h^{-1}$, and1
+    \item the automorphism group $\Aut(G)$, the group of isomorphisms $\phi : G \to G$ in $\cat{Group}$.
+  \end{itemize}
+  Trivially, all three constructions define a functor from the discrete category of groups
+  (with only identity morphisms) to $\cat{Group}$.
+  Are these constructions functorial in
+  \begin{itemize}[nosep]
+    \item the isomorphisms of groups? That is, do they extend to functors $\cat{Group_{iso}} → \cat{Group}$?
+    \item the epimorphisms of groups? That is, do they extend to functors $\cat{Group_{epi}} → \cat{Group}$?
+    \item all homomorphisms of groups? That is, do they extend to functors $\cat{Group} → \cat{Group}$?
+  \end{itemize}
+\end{xca}
+% TODO: requires group theory
+
+\begin{xca}
+  Show that the construction of the set of conjugacy classes of elements of a group is functorial,
+  defining a functor $\fn{Conj} : \cat{Group} \to \cat{Set}$.
+  Conclude that any pair of groups whose sets of conjugacy classes of elements
+  have differing cardinalities cannot be isomorphic.
+\end{xca}
+% TODO: requires group theory
 
 \end{document}
